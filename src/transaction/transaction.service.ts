@@ -10,9 +10,22 @@ export class TransactionService {
     @InjectRepository(Transaction)
     private userRepository: Repository<Transaction>,
   ) {}
-  async create(createTransactionDto: CreateTransactionDto) {
-    const transaction = new Transaction();
-    Object.assign(transaction, createTransactionDto);
+  async create({
+    value,
+    paymentOption,
+    cardHolderName,
+    cardExpiration,
+    cardVerificationCode,
+    cardNumber,
+  }: CreateTransactionDto) {
+    const transaction = new Transaction(
+      value,
+      paymentOption,
+      cardHolderName,
+      cardExpiration,
+      cardVerificationCode,
+      cardNumber,
+    );
     await this.userRepository.save(transaction);
   }
 }

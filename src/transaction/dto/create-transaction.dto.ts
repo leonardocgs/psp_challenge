@@ -1,4 +1,4 @@
-import { IsEnum, IsNumber, isNumber } from 'class-validator';
+import { IsEnum, IsNumber } from 'class-validator';
 import { PaymentOption } from '../util/payment-option.enum';
 
 export class CreateTransactionDto {
@@ -6,7 +6,12 @@ export class CreateTransactionDto {
   value: number;
   @IsEnum(PaymentOption)
   paymentOption: PaymentOption;
-  cardHolderNamer: number;
+
+  cardHolderName: string;
+
   cardExpiration: Date;
+
   cardVerificationCode: number;
+
+  cardNumber: string;
 }

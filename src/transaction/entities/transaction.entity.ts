@@ -4,6 +4,8 @@ import { PaymentOption } from '../util/payment-option.enum';
 @Entity()
 export class Transaction {
   @PrimaryGeneratedColumn()
+  id: number;
+  @Column()
   value: number;
   @Column({
     type: 'enum',
@@ -11,9 +13,38 @@ export class Transaction {
   })
   paymentOption: PaymentOption;
   @Column()
-  cardHolderNamer: string;
+  cardHolderName: string;
   @Column()
   cardExpiration: Date;
   @Column()
   cardVerificationCode: number;
+  @Column()
+  cardNumber: string;
+
+  constructor(
+    value: number,
+    paymentOption: PaymentOption,
+    cardHolderName: string,
+    cardExpiration: Date,
+    cardVerificationCode: number,
+    cardNumber: string,
+  ) {
+    this.value = value;
+    this.paymentOption = paymentOption;
+    this.cardHolderName = cardHolderName;
+    this.cardExpiration = cardExpiration;
+    this.cardVerificationCode = cardVerificationCode;
+    this.cardNumber = this.transformToSecureCardNumber(cardNumber);
+  }
+
+  private transformToSecureCardNumber(cardNumber: string): string {
+    let secureCardNumber: string;
+    if (cardNumber) {
+      const startIndex = cardNumber.length - 3 - 1;
+      const lastIndex = cardNumber.length;
+      secureCardNumber = cardNumber.slice(startIndex, lastIndex);
+      return secureCardNumber;
+    }
+    return cardNumber;
+  }
 }
