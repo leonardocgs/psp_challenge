@@ -6,6 +6,6 @@ services:
     image: postgres:latest
     restart: always
     env_file:
-      - db.env
+      - .env
     ports:
       - "5455:5432"
