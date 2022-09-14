@@ -20,14 +20,18 @@ export class Transaction {
   cardVerificationCode: number;
   @Column()
   cardNumber: string;
+  @Column()
+  transactionDescription: string;
 
   constructor(
     value: number,
     paymentOption: PaymentOption,
+
     cardHolderName: string,
     cardExpiration: string,
     cardVerificationCode: number,
     cardNumber: string,
+    transactionDescription: string,
   ) {
     this.value = value;
     this.paymentOption = paymentOption;
@@ -35,6 +39,7 @@ export class Transaction {
     this.cardExpiration = cardExpiration;
     this.cardVerificationCode = cardVerificationCode;
     this.cardNumber = this.transformToSecureCardNumber(cardNumber);
+    this.transactionDescription = transactionDescription;
   }
 
   private transformToSecureCardNumber(cardNumber: string): string {

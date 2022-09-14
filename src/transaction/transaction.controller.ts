@@ -8,5 +8,6 @@ export class TransactionController {
   @Post()
   createTransaction(@Body() createTransactionDto: CreateTransactionDto) {
     this.transactionService.create(createTransactionDto);
+    return { message: 'Transaction was successful' };
   }
 }

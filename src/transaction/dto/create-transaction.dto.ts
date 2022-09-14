@@ -1,4 +1,10 @@
-import { IsEnum, IsNumber, IsString, Matches } from 'class-validator';
+import {
+  IsEnum,
+  IsNumber,
+  IsNumberString,
+  IsString,
+  Matches,
+} from 'class-validator';
 import { PaymentOption } from '../util/payment-option.enum';
 
 export class CreateTransactionDto {
@@ -19,6 +25,8 @@ export class CreateTransactionDto {
   @IsNumber()
   cardVerificationCode: number;
 
-  @IsString()
+  @IsNumberString()
   cardNumber: string;
+  @IsString()
+  transactionDescription: string;
 }

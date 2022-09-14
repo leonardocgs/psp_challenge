@@ -17,6 +17,7 @@ export class TransactionService {
     cardExpiration,
     cardVerificationCode,
     cardNumber,
+    transactionDescription,
   }: CreateTransactionDto) {
     const transaction = new Transaction(
       value,
@@ -25,6 +26,7 @@ export class TransactionService {
       cardExpiration,
       cardVerificationCode,
       cardNumber,
+      transactionDescription,
     );
     await this.userRepository.save(transaction);
   }
