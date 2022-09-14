@@ -15,7 +15,7 @@ export class Transaction {
   @Column()
   cardHolderName: string;
   @Column()
-  cardExpiration: Date;
+  cardExpiration: string;
   @Column()
   cardVerificationCode: number;
   @Column()
@@ -25,7 +25,7 @@ export class Transaction {
     value: number,
     paymentOption: PaymentOption,
     cardHolderName: string,
-    cardExpiration: Date,
+    cardExpiration: string,
     cardVerificationCode: number,
     cardNumber: string,
   ) {
