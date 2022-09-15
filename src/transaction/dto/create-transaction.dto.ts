@@ -9,7 +9,7 @@ import { PaymentOption } from '../util/payment-option.enum';
 
 export class CreateTransactionDto {
   @IsNumber()
-  value: number;
+  amount: number;
   @IsEnum(PaymentOption, {
     message:
       'paymentOption must be credit_card or debit_card conforming to the specified constraints',

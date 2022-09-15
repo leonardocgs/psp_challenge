@@ -6,7 +6,7 @@ export class Transaction {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
-  value: number;
+  amount: number;
   @Column({
     type: 'enum',
     enum: PaymentOption,
@@ -24,7 +24,7 @@ export class Transaction {
   transactionDescription: string;
 
   constructor(
-    value: number,
+    amount: number,
     paymentOption: PaymentOption,
 
     cardHolderName: string,
@@ -33,7 +33,7 @@ export class Transaction {
     cardNumber: string,
     transactionDescription: string,
   ) {
-    this.value = value;
+    this.amount = amount;
     this.paymentOption = paymentOption;
     this.cardHolderName = cardHolderName;
     this.cardExpiration = cardExpiration;

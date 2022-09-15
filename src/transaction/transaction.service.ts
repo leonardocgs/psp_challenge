@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Payable } from 'src/payables/entities/Payable.entity';
+import { PayableFactory } from 'src/payables/factories/PayableFactory';
 import { Repository } from 'typeorm';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { Transaction } from './entities/transaction.entity';
@@ -9,9 +11,10 @@ export class TransactionService {
   constructor(
     @InjectRepository(Transaction)
     private userRepository: Repository<Transaction>,
+    @InjectRepository(Payable) private payableRepository: Repository<Payable>,
   ) {}
   async create({
-    value,
+    amount,
     paymentOption,
     cardHolderName,
     cardExpiration,
@@ -20,7 +23,7 @@ export class TransactionService {
     transactionDescription,
   }: CreateTransactionDto) {
     const transaction = new Transaction(
-      value,
+      amount,
       paymentOption,
       cardHolderName,
       cardExpiration,
@@ -29,5 +32,8 @@ export class TransactionService {
       transactionDescription,
     );
     await this.userRepository.save(transaction);
+    const payable = PayableFactory.getPayable(paymentOption);
+    payable.setAmount(amount);
+    await this.payableRepository.save(payable);
   }
 }
