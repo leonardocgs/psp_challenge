@@ -5,7 +5,7 @@ import {
   IsString,
   Matches,
 } from 'class-validator';
-import { PaymentOption } from '../util/payment-option.enum';
+import { PaymentOption } from '../util/PayamentOption.enum';
 
 export class CreateTransactionDto {
   @IsNumber()

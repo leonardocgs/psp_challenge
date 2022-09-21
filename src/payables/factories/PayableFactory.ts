@@ -1,4 +1,4 @@
-import { PaymentOption } from 'src/transaction/util/payment-option.enum';
+import { PaymentOption } from 'src/transaction/util/PayamentOption.enum';
 import { CreditPayable } from '../entities/CreditPayable.entity';
 import { DebitPayable } from '../entities/DebitPayable.entity';
 

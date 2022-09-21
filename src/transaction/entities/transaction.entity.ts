@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { PaymentOption } from '../util/payment-option.enum';
+import { PaymentOption } from '../util/PayamentOption.enum';
 
 @Entity()
 export class Transaction {
