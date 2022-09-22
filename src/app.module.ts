@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Payable } from './payables/entities/Payable.entity';
 import { Transaction } from './transaction/entities/transaction.entity';
 import { TransactionModule } from './transaction/transaction.module';
-
+import * as redisStore from 'cache-manager-redis-store';
+import { RedisClientOptions } from 'redis';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -19,6 +20,11 @@ import { TransactionModule } from './transaction/transaction.module';
       synchronize: true,
     }),
     TransactionModule,
+    CacheModule.register<RedisClientOptions>({
+      isGlobal: true,
+      store: redisStore,
+      url: process.env.REDIS_URL,
+    }),
   ],
   controllers: [],
   providers: [],

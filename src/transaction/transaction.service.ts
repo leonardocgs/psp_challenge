@@ -10,7 +10,7 @@ import { Transaction } from './entities/transaction.entity';
 export class TransactionService {
   constructor(
     @InjectRepository(Transaction)
-    private userRepository: Repository<Transaction>,
+    private transactionRepository: Repository<Transaction>,
     @InjectRepository(Payable) private payableRepository: Repository<Payable>,
   ) {}
   async create({
@@ -31,9 +31,12 @@ export class TransactionService {
       cardNumber,
       transactionDescription,
     );
-    await this.userRepository.save(transaction);
+    await this.transactionRepository.save(transaction);
     const payable = PayableFactory.getPayable(paymentOption);
     payable.setAmount(amount);
     await this.payableRepository.save(payable);
+  }
+  async findAll(): Promise<Transaction[]> {
+    return this.transactionRepository.find();
   }
 }

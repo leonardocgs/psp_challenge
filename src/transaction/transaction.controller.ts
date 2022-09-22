@@ -1,4 +1,11 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseInterceptors,
+  CacheInterceptor,
+} from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { TransactionService } from './transaction.service';
 
@@ -6,8 +13,16 @@ import { TransactionService } from './transaction.service';
 export class TransactionController {
   constructor(private transactionService: TransactionService) {}
   @Post()
-  createTransaction(@Body() createTransactionDto: CreateTransactionDto) {
+  async createTransaction(@Body() createTransactionDto: CreateTransactionDto) {
     this.transactionService.create(createTransactionDto);
     return { message: 'Transaction was successful' };
+  }
+  @UseInterceptors(CacheInterceptor)
+  @Get()
+  async getTransaction() {
+    const transactions = await this.transactionService.findAll();
+    return {
+      transactions,
+    };
   }
 }
