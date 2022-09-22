@@ -6,6 +6,7 @@ import { Transaction } from './transaction/entities/transaction.entity';
 import { TransactionModule } from './transaction/transaction.module';
 import * as redisStore from 'cache-manager-redis-store';
 import { RedisClientOptions } from 'redis';
+import { PayablesModule } from './payables/payables.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -25,6 +26,8 @@ import { RedisClientOptions } from 'redis';
       store: redisStore,
       url: process.env.REDIS_URL,
     }),
+    TransactionModule,
+    PayablesModule,
   ],
   controllers: [],
   providers: [],

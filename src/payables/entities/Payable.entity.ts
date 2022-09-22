@@ -14,7 +14,7 @@ export abstract class Payable {
     type: 'enum',
     enum: Status,
   })
-  protected status: Status;
+  status: Status;
   @Column()
   protected paymentDate: Date;
   setAmount(amount: number): void {

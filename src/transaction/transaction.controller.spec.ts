@@ -1,9 +1,12 @@
+import { CacheModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { RedisClientOptions } from 'redis';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { TransactionController } from './transaction.controller';
 import { TransactionService } from './transaction.service';
 import { PaymentOption } from './util/PayamentOption.enum';
 
+import * as redisStore from 'cache-manager-redis-store';
 describe('TransactionController', () => {
   let transactionController: TransactionController;
   let transactionService: TransactionService;
@@ -19,6 +22,12 @@ describe('TransactionController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        CacheModule.register<RedisClientOptions>({
+          store: redisStore,
+          url: process.env.REDIS_URL,
+        }),
+      ],
       controllers: [TransactionController],
 
       providers: [
