@@ -13,31 +13,13 @@ export class TransactionService {
     private transactionRepository: Repository<Transaction>,
     @InjectRepository(Payable) private payableRepository: Repository<Payable>,
   ) {}
-  async create({
-    clientId,
-    amount,
-    paymentOption,
-    cardHolderName,
-    cardExpiration,
-    cardVerificationCode,
-    cardNumber,
-    transactionDescription,
-  }: CreateTransactionDto) {
-    const transaction = new Transaction(
-      clientId,
-      amount,
-      paymentOption,
-      cardHolderName,
-      cardExpiration,
-      cardVerificationCode,
-      cardNumber,
-      transactionDescription,
-    );
+  async create(createTransaction: CreateTransactionDto) {
+    const transaction = new Transaction(createTransaction);
     await this.transactionRepository.save(transaction);
     const payable = PayableFactory.getPayable({
-      clientId,
-      amount,
-      paymentOption,
+      clientId: createTransaction.clientId,
+      amount: createTransaction.amount,
+      paymentOption: createTransaction.paymentOption,
     });
     await this.payableRepository.save(payable);
   }

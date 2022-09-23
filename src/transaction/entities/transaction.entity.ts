@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { CreateTransactionDto } from '../dto/create-transaction.dto';
 import { PaymentOption } from '../util/PayamentOption.enum';
 
 @Entity()
@@ -25,17 +26,17 @@ export class Transaction {
   @Column()
   transactionDescription: string;
 
-  constructor(
-    clientId: string,
-    amount: number,
-    paymentOption: PaymentOption,
+  constructor({
+    clientId,
+    amount,
+    paymentOption,
 
-    cardHolderName: string,
-    cardExpiration: string,
-    cardVerificationCode: number,
-    cardNumber: string,
-    transactionDescription: string,
-  ) {
+    cardNumber,
+    cardHolderName,
+    cardExpiration,
+    cardVerificationCode,
+    transactionDescription,
+  }: CreateTransactionDto) {
     this.clientId = clientId;
     this.amount = amount;
     this.paymentOption = paymentOption;

@@ -1,4 +1,4 @@
-import { CacheModule } from '@nestjs/common';
+import { CacheModule, CACHE_MANAGER } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { RedisClientOptions } from 'redis';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
@@ -7,6 +7,7 @@ import { TransactionService } from './transaction.service';
 import { PaymentOption } from './util/PayamentOption.enum';
 
 import * as redisStore from 'cache-manager-redis-store';
+import { Transaction } from './entities/transaction.entity';
 describe('TransactionController', () => {
   let transactionController: TransactionController;
   let transactionService: TransactionService;
@@ -20,7 +21,8 @@ describe('TransactionController', () => {
     cardVerificationCode: 423,
     transactionDescription: 'descricao',
   };
-
+  const transaction = new Transaction(transactionDto);
+  const transactions = [transaction, transaction, transaction];
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
@@ -42,6 +44,21 @@ describe('TransactionController', () => {
                   Promise.resolve({ id: '2', ...createTransactionDto });
                 },
               ),
+
+            findById: jest.fn().mockImplementation((clientId) => {
+              if (clientId == 0) {
+                return Promise.resolve([]);
+              } else if (clientId == '123Abc') {
+                return Promise.resolve(transactions);
+              }
+            }),
+          },
+        },
+        {
+          provide: CACHE_MANAGER,
+          useValue: {
+            get: () => 'teste',
+            set: () => jest.fn(),
           },
         },
       ],
@@ -60,6 +77,27 @@ describe('TransactionController', () => {
     it('Should execute the transactionService.create() method ', () => {
       transactionController.createTransaction(transactionDto);
       expect(transactionService.create).toHaveBeenCalledWith(transactionDto);
+    });
+  });
+  describe('findById()', () => {
+    it('Should throw an error if no transaction is found with the given clientId', async () => {
+      const clientId = '0';
+      return expect(
+        transactionController.getTransaction(clientId),
+      ).rejects.toThrow();
+    });
+    it('Should execute the transactionService.findById() method', async () => {
+      const clientId = '123Abc';
+      await transactionController.getTransaction(clientId);
+      expect(transactionService.findById).toHaveBeenCalledWith(clientId);
+    });
+    it('Should return a list of transactions ', async () => {
+      const clientId = '123Abc';
+      const expectResult = {
+        transactions,
+      };
+      const result = await transactionController.getTransaction(clientId);
+      return expect(result).toStrictEqual(expectResult);
     });
   });
 });
