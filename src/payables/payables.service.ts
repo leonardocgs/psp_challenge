@@ -10,18 +10,20 @@ export class PayablesService {
     @InjectRepository(Payable) private payableRepository: Repository<Payable>,
   ) {}
 
-  async findAllPaid(): Promise<Payable[]> {
+  async findAllPaid(clientId: string): Promise<Payable[]> {
     const allPaid = await this.payableRepository.find({
       where: {
         status: Status.PAID,
+        clientId,
       },
     });
     return allPaid;
   }
-  async findAllWaiting(): Promise<Payable[]> {
+  async findAllWaiting(clientId: string): Promise<Payable[]> {
     const allWating = await this.payableRepository.find({
       where: {
         status: Status.WAITING_FUNDS,
+        clientId,
       },
     });
     return allWating;

@@ -6,6 +6,8 @@ import { dateFormatter } from './util/DateFormatter';
 export abstract class Payable {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+  @Column()
+  clientId: string;
   @Column('real')
   protected fee: number;
   @Column('decimal')

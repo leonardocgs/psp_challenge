@@ -11,6 +11,7 @@ describe('TransactionController', () => {
   let transactionController: TransactionController;
   let transactionService: TransactionService;
   const transactionDto: CreateTransactionDto = {
+    clientId: '123Abc',
     amount: 2012,
     paymentOption: PaymentOption.CREDIT_CARD,
     cardNumber: '4350',

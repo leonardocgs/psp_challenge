@@ -4,14 +4,19 @@ import { getTodayDate } from './util/DateFormatter';
 
 describe('class DebitPayable', () => {
   let debitPayable: DebitPayable;
+  const clientId = '123';
+  const amount = 425.2;
   beforeAll(() => {
-    debitPayable = new DebitPayable();
+    debitPayable = new DebitPayable(clientId, amount);
   });
   it('Should have fee property', () => {
     expect(debitPayable).toHaveProperty('fee');
   });
   it('Should have status property', () => {
     expect(debitPayable).toHaveProperty('status');
+  });
+  it('Should have amount property', () => {
+    expect(debitPayable).toHaveProperty('amount');
   });
   it('Should have paymentDate property', () => {
     expect(debitPayable).toHaveProperty('paymentDate');

@@ -14,6 +14,7 @@ export class TransactionService {
     @InjectRepository(Payable) private payableRepository: Repository<Payable>,
   ) {}
   async create({
+    clientId,
     amount,
     paymentOption,
     cardHolderName,
@@ -23,6 +24,7 @@ export class TransactionService {
     transactionDescription,
   }: CreateTransactionDto) {
     const transaction = new Transaction(
+      clientId,
       amount,
       paymentOption,
       cardHolderName,
@@ -32,11 +34,18 @@ export class TransactionService {
       transactionDescription,
     );
     await this.transactionRepository.save(transaction);
-    const payable = PayableFactory.getPayable(paymentOption);
-    payable.setAmount(amount);
+    const payable = PayableFactory.getPayable({
+      clientId,
+      amount,
+      paymentOption,
+    });
     await this.payableRepository.save(payable);
   }
-  async findAll(): Promise<Transaction[]> {
-    return this.transactionRepository.find();
+  async findById(clientId: string): Promise<Transaction[]> {
+    return this.transactionRepository.find({
+      where: {
+        clientId: clientId,
+      },
+    });
   }
 }

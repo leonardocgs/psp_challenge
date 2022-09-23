@@ -5,6 +5,8 @@ import { PaymentOption } from '../util/PayamentOption.enum';
 export class Transaction {
   @PrimaryGeneratedColumn('uuid')
   id: number;
+  @Column()
+  clientId: string;
   @Column('real')
   amount: number;
   @Column({
@@ -24,6 +26,7 @@ export class Transaction {
   transactionDescription: string;
 
   constructor(
+    clientId: string,
     amount: number,
     paymentOption: PaymentOption,
 
@@ -33,6 +36,7 @@ export class Transaction {
     cardNumber: string,
     transactionDescription: string,
   ) {
+    this.clientId = clientId;
     this.amount = amount;
     this.paymentOption = paymentOption;
     this.cardHolderName = cardHolderName;

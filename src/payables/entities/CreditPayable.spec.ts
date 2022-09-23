@@ -4,14 +4,19 @@ import { dateFormatter } from './util/DateFormatter';
 
 describe('class CreditPayable', () => {
   let creditPayable: CreditPayable;
+  const clientId = '123';
+  const amount = 425.2;
   beforeAll(() => {
-    creditPayable = new CreditPayable();
+    creditPayable = new CreditPayable(clientId, amount);
   });
   it('Should have fee property', () => {
     expect(creditPayable).toHaveProperty('fee');
   });
   it('Should have status property', () => {
     expect(creditPayable).toHaveProperty('status');
+  });
+  it('Should have amount property', () => {
+    expect(creditPayable).toHaveProperty('amount');
   });
   it('Should have paymentDate property', () => {
     expect(creditPayable).toHaveProperty('paymentDate');

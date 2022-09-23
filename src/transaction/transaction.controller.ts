@@ -5,7 +5,9 @@ import {
   Get,
   UseInterceptors,
   CacheInterceptor,
+  Param,
 } from '@nestjs/common';
+import { isDataNotFound } from 'src/utils/data';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { TransactionService } from './transaction.service';
 
@@ -18,9 +20,10 @@ export class TransactionController {
     return { message: 'Transaction was successful' };
   }
   @UseInterceptors(CacheInterceptor)
-  @Get()
-  async getTransaction() {
-    const transactions = await this.transactionService.findAll();
+  @Get(':clientId')
+  async getTransaction(@Param('clientId') clientId: string) {
+    const transactions = await this.transactionService.findById(clientId);
+    isDataNotFound(transactions);
     return {
       transactions,
     };

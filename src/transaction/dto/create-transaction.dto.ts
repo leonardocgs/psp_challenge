@@ -8,6 +8,8 @@ import {
 import { PaymentOption } from '../util/PayamentOption.enum';
 
 export class CreateTransactionDto {
+  @IsString()
+  clientId: string;
   @IsNumber()
   amount: number;
   @IsEnum(PaymentOption, {
