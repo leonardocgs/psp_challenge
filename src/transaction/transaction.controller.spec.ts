@@ -80,7 +80,7 @@ describe('TransactionController', () => {
       expect(transactionService.create).toHaveBeenCalledWith(transactionDto);
     });
   });
-  describe('findById()', () => {
+  describe('getTransaction()', () => {
     it('Should execute the isDataNotFound() function', async () => {
       const clientId = '123Abc';
       const isDatNotFoundSpy = jest.spyOn(dataModule, 'isDataNotFound');
