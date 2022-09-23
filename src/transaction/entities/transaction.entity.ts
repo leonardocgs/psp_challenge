@@ -26,25 +26,17 @@ export class Transaction {
   @Column()
   transactionDescription: string;
 
-  constructor({
-    clientId,
-    amount,
-    paymentOption,
-
-    cardNumber,
-    cardHolderName,
-    cardExpiration,
-    cardVerificationCode,
-    transactionDescription,
-  }: CreateTransactionDto) {
-    this.clientId = clientId;
-    this.amount = amount;
-    this.paymentOption = paymentOption;
-    this.cardHolderName = cardHolderName;
-    this.cardExpiration = cardExpiration;
-    this.cardVerificationCode = cardVerificationCode;
-    this.cardNumber = this.transformToSecureCardNumber(cardNumber);
-    this.transactionDescription = transactionDescription;
+  constructor(createTransaction?: CreateTransactionDto) {
+    this.clientId = createTransaction?.clientId;
+    this.amount = createTransaction?.amount;
+    this.paymentOption = createTransaction?.paymentOption;
+    this.cardHolderName = createTransaction?.cardHolderName;
+    this.cardExpiration = createTransaction?.cardExpiration;
+    this.cardVerificationCode = createTransaction?.cardVerificationCode;
+    this.cardNumber = this.transformToSecureCardNumber(
+      createTransaction?.cardNumber,
+    );
+    this.transactionDescription = createTransaction?.transactionDescription;
   }
 
   private transformToSecureCardNumber(cardNumber: string): string {
