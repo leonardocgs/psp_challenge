@@ -8,6 +8,7 @@ import { PaymentOption } from './util/PayamentOption.enum';
 
 import * as redisStore from 'cache-manager-redis-store';
 import { Transaction } from './entities/transaction.entity';
+import * as dataModule from 'src/utils/data';
 describe('TransactionController', () => {
   let transactionController: TransactionController;
   let transactionService: TransactionService;
@@ -80,11 +81,12 @@ describe('TransactionController', () => {
     });
   });
   describe('findById()', () => {
-    it('Should throw an error if no transaction is found with the given clientId', async () => {
-      const clientId = '0';
-      return expect(
-        transactionController.getTransaction(clientId),
-      ).rejects.toThrow();
+    it('Should execute the isDataNotFound() function', async () => {
+      const clientId = '123Abc';
+      const isDatNotFoundSpy = jest.spyOn(dataModule, 'isDataNotFound');
+      await transactionController.getTransaction(clientId);
+
+      expect(isDatNotFoundSpy).toHaveBeenCalled();
     });
     it('Should execute the transactionService.findById() method', async () => {
       const clientId = '123Abc';
