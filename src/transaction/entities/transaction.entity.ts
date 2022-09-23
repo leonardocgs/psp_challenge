@@ -3,9 +3,9 @@ import { PaymentOption } from '../util/PayamentOption.enum';
 
 @Entity()
 export class Transaction {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
-  @Column()
+  @Column('real')
   amount: number;
   @Column({
     type: 'enum',

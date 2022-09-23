@@ -6,7 +6,7 @@ import { dateFormatter } from './util/DateFormatter';
 export abstract class Payable {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @Column('decimal')
+  @Column('real')
   protected fee: number;
   @Column('decimal')
   protected amount: number;
@@ -18,7 +18,7 @@ export abstract class Payable {
   @Column()
   protected paymentDate: Date;
   setAmount(amount: number): void {
-    this.amount = amount * (1 - this.fee);
+    this.amount = +(amount * (1 - this.fee)).toFixed(2);
   }
   getFee(): number {
     return this.fee;
